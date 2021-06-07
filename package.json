@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Senayson/tinyapp/issues"
   },
-  "homepage": "https://github.com/Senayson/tinyapp#readme"
+  "homepage": "https://github.com/Senayson/tinyapp#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
