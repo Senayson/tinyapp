@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
 function generateRandomString() {
-
+  return Math.random().toString(36).substring(2, 8);
 }
 
 
