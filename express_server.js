@@ -70,6 +70,11 @@ app.post("/urls/show/:shortURL", (req, res) => {
 urlDatabase[shortURL] = req.body.longURL;
   res.redirect("/urls");
 })
+app.post("/login", (req, res) => {
+  console.log(req.body)
+  res.cookie('firstname', req.body.username );
+  res.redirect("/urls");
+})
 
  
  
