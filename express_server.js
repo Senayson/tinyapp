@@ -30,11 +30,12 @@ app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
 app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlDatabase, username: req.cookies["username"],};
+  const templateVars = { urls: urlDatabase, username: req.cookies["username"]};
   res.render("urls_index", templateVars)
 });
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  const templateVars = {};
+  res.render("urls_new", templateVars);
 });
 
 app.post("/urls", (req, res) => {
@@ -80,6 +81,11 @@ app.post("/login", (req, res) => {
     username: req.cookies["username"],
     // ... any other vars
   };
+  res.redirect("/urls");
+})
+
+app.post("/logout", (req, res) => {
+  res.clearCookie('username');
   res.redirect("/urls");
 })
 
