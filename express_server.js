@@ -18,8 +18,7 @@ const users = {
   "userRandomID": {
     id: "userRandomID",
     email: "user@example.com",
-    password: "purple-monkey-dinosaur"
-  },
+    password: "purple-monkey-dinosaur" },
   "user2RandomID": {
     id: "user2RandomID",
     email: "user2@example.com",
@@ -122,6 +121,7 @@ app.post("/login", (req, res) => {
   const password = req.body.password;
   if(!email || !password){
     res.status(400).send('Please fill both fields');
+    return;
   }
   let user = checkIfEmailExists(email);
 
@@ -129,12 +129,17 @@ app.post("/login", (req, res) => {
     if(user.password === password){
       res.cookie('user_id', user);
       res.redirect("/urls"); 
+    } else {
+
+      res.status(403).send("Username or Password is incorrect");
+      return;
     }
-    res.status(403).send("Username or Password is incorrect");
+  } else {
+    
+    res.status(403).send('user not found');
+    return;
   }
   
-  res.status(403).send('user not found');
-  //res.redirect('login');
 })
 
 app.post("/logout", (req, res) => {
@@ -149,16 +154,17 @@ app.post("/register", (req, res) => {
   if(!email || !password){
     res.status(400).send("Please fill both fields");
   }
-  if(!checkIfEmailExists(email)){
+  if(checkIfEmailExists(email) === false){
+    users[id] = { id, email, password };
+    res.cookie('user_id', users[id]);
+    console.log("Line 121: " , users);
+    res.redirect("/urls");
+  } else{
+
     res.status(400).send("Email already exists");
   }
   
-  users[id] = { id, email, password };
-  res.cookie('user_id', users[id]);
-  console.log("Line 121: " , users);
-  res.redirect("/urls");
 })
-
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
