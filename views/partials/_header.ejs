@@ -11,12 +11,13 @@
       </div>
     </div>
     <div>
-      <% if(typeof username !== 'undefined' && username){ %>
+      <% console.log("Header file: " , user)%>
+      <% if(user !== undefined && user.id){ %>
         <div>
           <form method="POST" action="/logout">
             <button type="submit">LOG OUT</button>
           </form>
-          <p> <%= username %> </p>
+          <p> <%= user.email %> </p>
         </div>
       <% } else{ %>  
         <div>
