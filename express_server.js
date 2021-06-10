@@ -68,17 +68,21 @@ app.get("/register", (req, res) => {
 
 app.get("/urls/new", (req, res) => {
   const templateVars = {urls: urlDatabase, user: req.cookies.user_id};
-  res.render("urls_new", templateVars);
+  console.log("Line 71: " , req.cookies);
+ let user = templateVars.user;
+  if(user && typeof user !== 'undefined'){
+    res.render("urls_new", templateVars);
+    return;
+  } 
+  res.redirect("/login");
 });
 
 app.post("/urls", (req, res) => {
-  //console.log(req.body.longURL);  
+  
   let newshortURL = generateRandomString();
   urlDatabase[newshortURL] = req.body.longURL;
-  console.log(urlDatabase)
-  //res.send("Ok"); 
   
-  res.redirect(`/urls/${newshortURL}`);
+  res.redirect("/urls");
 });
 
 app.get("/login", (req, res) => {
