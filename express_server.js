@@ -14,6 +14,19 @@ function generateRandomString() {
   return Math.random().toString(36).substring(2, 8);
 }
 
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+}
+
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -32,6 +45,10 @@ app.get("/hello", (req, res) => {
 app.get("/urls", (req, res) => {
   const templateVars = { urls: urlDatabase, username: req.cookies["username"]};
   res.render("urls_index", templateVars)
+});
+app.get("/register", (req, res) => {
+  const templateVars = { urls: urlDatabase, username: req.cookies["username"]};
+  res.render("registering", templateVars)
 });
 app.get("/urls/new", (req, res) => {
   const templateVars = {};
@@ -89,7 +106,13 @@ app.post("/logout", (req, res) => {
   res.redirect("/urls");
 })
 
- 
+app.post("/register", (req, res) => {
+  console.log(req.body);
+  //const user = req.body;
+
+
+  //res.redirect("/urls");
+}) 
  
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
