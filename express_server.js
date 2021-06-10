@@ -29,9 +29,9 @@ const users = {
 function checkIfEmailExists(email) {
   email = email.toLowerCase();
   const keys = Object.keys(users);
-  for(let user of keys){
-    if(users[user].email === email){
-     return true;
+  for(let userId of keys){
+    if(users[userId].email === email){
+     return users[userId];
     }
   }
   return false;
@@ -78,9 +78,14 @@ app.post("/urls", (req, res) => {
   urlDatabase[newshortURL] = req.body.longURL;
   console.log(urlDatabase)
   //res.send("Ok"); 
-
+  
   res.redirect(`/urls/${newshortURL}`);
 });
+
+app.get("/login", (req, res) => {
+  const templateVars = {};
+  res.render("login", templateVars);
+})
 
 app.get("/urls/:shortURL", (req, res) => {
   const longURL = urlDatabase[req.params.shortURL];
@@ -113,9 +118,23 @@ app.post("/urls/show/:shortURL", (req, res) => {
 })
 
 app.post("/login", (req, res) => {
-  res.cookie('user_id', users[id]);
+  const email =req.body.email;
+  const password = req.body.password;
+  if(!email || !password){
+    res.status(400).send('Please fill both fields');
+  }
+  let user = checkIfEmailExists(email);
 
-  res.redirect("/urls");
+  if(user){
+    if(user.password === password){
+      res.cookie('user_id', user);
+      res.redirect("/urls"); 
+    }
+    res.status(403).send("Username or Password is incorrect");
+  }
+  
+  res.status(403).send('user not found');
+  //res.redirect('login');
 })
 
 app.post("/logout", (req, res) => {
@@ -139,6 +158,7 @@ app.post("/register", (req, res) => {
   console.log("Line 121: " , users);
   res.redirect("/urls");
 })
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);

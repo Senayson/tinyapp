@@ -11,8 +11,7 @@
       </div>
     </div>
     <div>
-      <% console.log("Header file: " , user)%>
-      <% if(user !== undefined && user.id){ %>
+      <% if(typeof user !== 'undefined' && user.id){ %>
         <div>
           <form method="POST" action="/logout">
             <button type="submit">LOG OUT</button>
@@ -21,10 +20,8 @@
         </div>
       <% } else{ %>  
         <div>
-          <form method="POST" action="/login">
-            <input type="text" name="username">
-            <button type="submit">LOG IN</button>
-          </form>
+          <a href="/login" class="btn btn-primary">LOG IN</a>
+          <a href="/register" class="btn btn-primary">REGISTER</a>
         </div>
      <% } %>
     </div>
