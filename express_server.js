@@ -36,12 +36,14 @@ function checkIfEmailExists(email) {
   return false;
 }
 
+// const urlDatabase = {
+//   "b2xVn2": "http://www.lighthouselabs.ca",
+//   "9sm5xK": "http://www.google.com"
+// };
 const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
+  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
 };
-
-
 
 app.get("/", (req, res) => {
   res.send("Hello");
@@ -56,18 +58,17 @@ app.get("/hello", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlDatabase, user: req.cookies.user_id };
-  console.log("Line 48: " , templateVars)
+  const templateVars = { urlDatabase, user: req.cookies.user_id };
   res.render("urls_index", templateVars)
 });
 
 app.get("/register", (req, res) => {
-  const templateVars = { urls: urlDatabase, user: req.cookies.user_id };
+  const templateVars = { urlDatabase, user: req.cookies.user_id };
   res.render("registering", templateVars)
 });
 
 app.get("/urls/new", (req, res) => {
-  const templateVars = {urls: urlDatabase, user: req.cookies.user_id};
+  const templateVars = {urlDatabase, user: req.cookies.user_id};
   console.log("Line 71: " , req.cookies);
  let user = templateVars.user;
   if(user && typeof user !== 'undefined'){
@@ -97,7 +98,7 @@ app.get("/urls/:shortURL", (req, res) => {
 });
 
 app.get("/u/:shortURL", (req, res) => {
-  longURL = urlDatabase[req.params.shortURL];
+  longURL = urlDatabase[req.params.shortURL].longURL;
   res.redirect(longURL);
 });
 
@@ -115,8 +116,10 @@ app.get("/urls/:shortURL", (req, res) => {
 
 app.post("/urls/show/:shortURL", (req, res) => {
   let shortURL = req.params.shortURL;
-  console.log(shortURL);
-  urlDatabase[shortURL] = req.body.longURL;
+  urlDatabase[shortURL].longURL = req.body.longURL;
+  console.log("Line 120:" ,req.body);
+  console.log("Below is our database:" ,urlDatabase);
+
   res.redirect("/urls");
 })
 
