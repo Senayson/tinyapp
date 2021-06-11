@@ -11,7 +11,7 @@
       </div>
     </div>
     <div>
-      <% if(typeof user !== 'undefined' && user.id){ %>
+      <% if(user !== null){ %>
         <div>
           <form method="POST" action="/logout">
             <button type="submit">LOG OUT</button>
