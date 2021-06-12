@@ -13,10 +13,10 @@
     <div>
       <% if(user !== null){ %>
         <div>
+          <a class="navbar-brand"> <%= user.email %> </a>
           <form method="POST" action="/logout">
             <button type="submit">LOG OUT</button>
           </form>
-          <p> <%= user.email %> </p>
         </div>
       <% } else{ %>  
         <div>
