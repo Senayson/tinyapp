@@ -1,6 +1,6 @@
 
 
-//FUNCTION TO CHECK IF EMAIL ALREADY EXISTS
+//FUNCTION TO CHECK IF EMAIL ALREADY EXISTS IN A DATABASE
 function getUserbyEmail(email, database) {
   email = email.toLowerCase();
   const keys = Object.keys(database);
